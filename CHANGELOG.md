@@ -12,10 +12,10 @@ flask kerko sync
 
 Features:
 
-* Item pages now display the item's relations. Relations include those
-  established with Zotero's _Related_ field, and additional relation types that
-  may be defined in Kerko and managed through child notes. The _Cites_ and
-  _Cited by_ relation types are provided by default.
+* Show relations on item pages. Relations include those established with
+  Zotero's _Related_ field, and additional relation types that may be defined in
+  Kerko and managed through child notes. The _Cites_ and _Cited by_ relation
+  types are provided by default.
 * The Extra field is now included when searching in all fields.
 * Requests for the older URL of an item whose ID has changed, e.g., after a
   merge in Zotero, are now automatically redirected to the item's current URL.
@@ -37,6 +37,7 @@ Bug fixes:
 * Fix unhandled exception during sync when an attachment cannot be downloaded.
 * Fix page numbers greater than the page count in search URLs generating wrong
   page numbers for search result item URLs.
+* Fix empty HTML element taking up horizontal space when there are no badges.
 
 Other changes:
 
