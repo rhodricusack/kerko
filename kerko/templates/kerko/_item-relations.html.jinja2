@@ -1,0 +1,25 @@
+<div class="tab-pane fade {% if is_active %}show active{% endif %}" id="{{ key }}" role="tabpanel" aria-labelledby="tab-{{ key }}">
+    <div class="d-none d-print-block font-weight-bold">{{ label }}</div>
+    <ul class="list-unstyled">
+        {%- for result in item[field][:config.KERKO_RELATIONS_INITIAL_COUNT] %}
+            {%- with result_url=url_for('.item_view', item_id=result.id, _external=True) %}
+                {%- include "kerko/_search-result.html.jinja2" %}
+            {%- endwith %}
+        {%- endfor %}
+    </ul>
+    {%- if item[field]|length > config.KERKO_RELATIONS_INITIAL_COUNT %}
+        <div class="collapse d-print-block" id="collapse-rel-{{ key }}">
+            <ul class="list-unstyled">
+                {%- for result in item[field][config.KERKO_RELATIONS_INITIAL_COUNT:] %}
+                    {%- with result_url=url_for('.item_view', item_id=result.id, _external=True) %}
+                        {%- include "kerko/_search-result.html.jinja2" %}
+                    {%- endwith %}
+                {%- endfor %}
+            </ul>
+        </div>
+        <button class="btn btn-light d-print-none more-or-less" data-toggle="collapse" data-target="#collapse-rel-{{ key }}" aria-expanded="false" aria-controls="collapse-rel-{{ key }}">
+            <span class="more">{{ _("View more") }}</span>
+            <span class="less">{{ _("View less") }}</span>
+        </button>
+    {%- endif %}
+</div>

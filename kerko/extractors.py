@@ -9,6 +9,7 @@ from collections.abc import Iterable
 from flask import Markup, current_app
 
 from .text import id_normalize, sort_normalize
+from .transformers import zotero_uri_to_item_id
 
 RECORD_SEPARATOR = '\x1e'
 
@@ -33,7 +34,11 @@ class ItemContext:
 class LibraryContext:
     """Contains data related to a Zotero library."""
 
-    def __init__(self, collections, item_types, item_fields, creator_types):
+    def __init__(
+            self, library_id, library_type, *, collections, item_types, item_fields, creator_types
+    ):
+        self.library_id = library_id
+        self.library_type = library_type
         self.collections = collections
         self.item_types = item_types
         self.item_fields = item_fields
@@ -197,7 +202,7 @@ class RawDataExtractor(Extractor):
 
 class ItemRelationsExtractor(Extractor):
 
-    def __init__(self, predicate='dc:replaces', **kwargs):
+    def __init__(self, predicate, **kwargs):
         super().__init__(**kwargs)
         self.predicate = predicate
 
@@ -428,6 +433,26 @@ class RawNotesExtractor(BaseNotesExtractor):
     def extract(self, item_context, library_context, spec):
         children = super().extract(item_context, library_context, spec)
         return [child.get('data', {}).get('note', '') for child in children] if children else None
+
+
+class RelationsInNotesExtractor(BaseNotesExtractor):
+    """Extract item references specified in child notes."""
+
+    def extract(self, item_context, library_context, spec):
+        refs = []
+        children = super().extract(item_context, library_context, spec)
+        if children:
+            for child in children:
+                note = child.get('data', {}).get('note', '')
+                note = Markup(re.sub(r'<br\s*/>', '\n', note)).striptags()  # Strip HTML markup.
+                # Treat each non-whitespace sequence as an item ID or alternate ID.
+                for ref in note.split():
+                    item_ids = zotero_uri_to_item_id(ref)
+                    if item_ids:
+                        refs.extend(item_ids)
+                    else:
+                        refs.append(ref)  # Keep reference as is.
+        return refs or None
 
 
 def _expand_paths(path):

@@ -12,6 +12,10 @@ flask kerko sync
 
 Features:
 
+* Item pages now display the item's relations. Relations include those
+  established with Zotero's _Related_ field, and additional relation types that
+  may be defined in Kerko and managed through child notes. The _Cites_ and
+  _Cited by_ relation types are provided by default.
 * The Extra field is now included when searching in all fields.
 * Requests for the older URL of an item whose ID has changed, e.g., after a
   merge in Zotero, are now automatically redirected to the item's current URL.
@@ -57,6 +61,12 @@ Backwards incompatible changes:
     assigning it to the document.
   * The new `extract_and_store()` method handles extraction, encoding, and
     assignment to the document, assigning the value only when it is not `None`.
+
+Possibly backwards incompatible changes (more or less internal API changes):
+
+* The `search_results` variable passed to the `search.html.jinja2` template is
+  now an iterator of tuples, where the first element of each tuple is a result,
+  and the second element the URL of the result.
 
 ## 0.6 (2020-06-15)
 
