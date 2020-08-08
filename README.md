@@ -140,13 +140,13 @@ The following features are implemented in Kerko:
   bibliography based on their tags.
 * DOI, ISBN and ISSN resolver: items that have such identifier in your library
   can be referenced by appending their identifier to your Kerko site's base URL.
-* Relations: bibliographic record pages provide links to related items, if any.
-  You may define such relations using Zotero's _Related_ field. Moreover, Kerko
-  adds the _Cites_ and _Cited by_ relation types, which can be managed in Zotero
-  through child notes (see the **Kerko Recipes** section below). Custom
-  applications can add more types of relations if desired.
+* Relations: bibliographic record pages show links to related items, if any. You
+  may define such relations using Zotero's _Related_ field. Moreover, Kerko adds
+  the _Cites_ and _Cited by_ relation types, which can be managed in Zotero
+  through notes (see the **Kerko Recipes** section below). Custom applications
+  can add more types of relations if desired.
 * Badges: icons can be displayed next to items, based on custom conditions.
-* Modularity: although a [standalone application][KerkoApp] is available, Kerko
+* Integration: although a [standalone application][KerkoApp] is available, Kerko
   is designed not as a standalone application, but to be part of a larger Flask
   application.
 
@@ -447,7 +447,7 @@ procedure below:
   and select _Copy Zotero URIs_ from that menu. This copies the references of
   the selected items items to the clipboard.
 * Right-click the item from your library that cites the items. Select _Add Note_
-  from that item's context menu.
+  from that item's context menu to add a child note.
 * In the note editor, paste the content of the clipboard. The note should then
   contain a series of URIs looking like
   `https://www.zotero.org/groups/9999999/items/ABCDEFGH` or
@@ -464,7 +464,7 @@ Remarks:
 
 * Enter only the _Cites_ relations. The reverse _Cited by_ relations will be
   inferred automatically.
-* You can only relate items that belong to the same Zotero library.
+* You may only relate items that belong to the same Zotero library.
 * Although using Zotero URIs is the most reliable way of relating items,
   alternatively you could use Zotero Item Selects (`zotero://select/...`), or
   other identifiers recognized by Kerko's item resolver, e.g., DOI, ISBN, ISSN.
