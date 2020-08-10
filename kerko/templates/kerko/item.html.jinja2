@@ -213,7 +213,7 @@
 {%- block body_scripts %}
     {{- super() }}
     {%- block kerko_item_js %}
-        <script src="{{ url_for('kerko.static', filename='kerko/js/item.js') }}"></script>
+        <script src="{{ url_for('kerko.static', filename='kerko/js/item.js') }}?202008101934"></script>
     {%- endblock kerko_item_js %}
     {%- block kerko_print_js %}
         {%- if config.KERKO_PRINT_ITEM_LINK %}
