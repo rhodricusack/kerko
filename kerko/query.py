@@ -268,7 +268,7 @@ def build_relations(item, return_fields=None, sort=None):
                 """
                 Search for a relation and store the result in the given item (at key).
                 """
-                results = searcher.search(q=Or(search_terms), **search_args)
+                results = searcher.search(q=Or(search_terms), limit=None, **search_args)
                 if results:
                     item[key] = [
                         _get_fields(hit, return_fields) for hit in results
