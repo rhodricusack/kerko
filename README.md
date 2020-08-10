@@ -338,8 +338,8 @@ override their default value:
   pages. Defaults to `False`.
 * `KERKO_PRINT_CITATIONS_MAX_COUNT`: Limit over which the print button should
   be hidden from search results pages. Defaults to `0` (i.e. no limit).
-* `KERKO_RELATIONS_INITIAL_COUNT`: Number of related items to show above the
-  "view more" link. Defaults to `5`.
+* `KERKO_RELATIONS_INITIAL_LIMIT`: Number of related items to show above the
+  "view all" link. Defaults to `5`.
 * `KERKO_RESULTS_ABSTRACT`: Show abstracts in search result pages. Defaults to
   `False`.
 * `KERKO_RESULTS_FIELDS`: List of item fields to retrieve for use in search
