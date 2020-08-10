@@ -171,7 +171,7 @@
                             {%- endif %}
                             {%- if rel.reverse and item[rel.reverse_field_key] %}
                                 <li class="nav-item" role="tab">
-                                    <a id="tab-{{ rel.reverse_key }}" href="#{{ rel.reverse_key }}" class="nav-link {% if rel.reverse_key == relations_ns.active_tab %}active{% endif %}" data-toggle="tab" aria-controls="isCitedBy" {% if rel.reverse_key == relations_ns.active_tab %}aria-selected="true"{% endif %}>{{ rel.reverse_label }}</a>
+                                    <a id="tab-{{ rel.reverse_key }}" href="#{{ rel.reverse_key }}" class="nav-link {% if rel.reverse_key == relations_ns.active_tab %}active{% endif %}" data-toggle="tab" aria-controls="{{ rel.reverse_key }}" {% if rel.reverse_key == relations_ns.active_tab %}aria-selected="true"{% endif %}>{{ rel.reverse_label }}</a>
                                 </li>
                             {%- endif %}
                         {%- endfor %}
