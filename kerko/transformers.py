@@ -50,10 +50,10 @@ zotero_uri_to_item_id = find(
     # Parse multiple Zotero Item URIs and/or Zotero Select URIs in a multiline
     # string. Return the list of found item IDs.
     regex=(
-        r'^(https?://(www\.)?zotero\.org/|zotero://select/)'
-        r'(library|((groups|users)/[0-9]+))/items/([A-Z0-9]+)$'
+        r'(^|\s)(https?://(www\.)?zotero\.org/|zotero://select/)'
+        r'(library|((groups|users)/[0-9]+))/items/([A-Z0-9]+)(?=$|\s)'
     ),
     flags=re.MULTILINE,
-    group=6,
+    group=7,
     max_matches=0,
 )

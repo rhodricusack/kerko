@@ -445,13 +445,7 @@ class RelationsInNotesExtractor(BaseNotesExtractor):
             for child in children:
                 note = child.get('data', {}).get('note', '')
                 note = Markup(re.sub(r'<br\s*/>', '\n', note)).striptags()  # Strip HTML markup.
-                # Treat each non-whitespace sequence as an item ID or alternate ID.
-                for ref in note.split():
-                    item_ids = zotero_uri_to_item_id(ref)
-                    if item_ids:
-                        refs.extend(item_ids)
-                    else:
-                        refs.append(ref)  # Keep reference as is.
+                refs.extend(zotero_uri_to_item_id(note))
         return refs or None
 
 

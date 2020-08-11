@@ -465,14 +465,9 @@ Remarks:
 * Enter only the _Cites_ relations. The reverse _Cited by_ relations will be
   inferred automatically.
 * You may only relate items that belong to the same Zotero library.
-* Although using Zotero URIs is the most reliable way of relating items,
-  alternatively you could use Zotero Item Selects (`zotero://select/...`), or
-  other identifiers recognized by Kerko's item resolver, e.g., DOI, ISBN, ISSN.
-  The identifiers should not contain whitespace characters, and only exact
-  matches will be found.
-* Since any non-whitespace character sequences from notes tagged with `_cites`
-  will go through Kerko's item resolver, it is best to avoid entering free text
-  in those notes.
+* You may use Zotero Item Selects (URIs starting with `zotero://select/`) in the
+  notes, if you find those more convenient than Zotero URIs.
+* URIs must be separated by one or more whitespace character(s).
 * Hopefully, Zotero will provide nicer ways for managing custom [relation
   types](https://sparontologies.github.io/cito/current/cito.html) in the future.
   In the meantime, using notes is how Kerko handles it.
