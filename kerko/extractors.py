@@ -9,7 +9,7 @@ from collections.abc import Iterable
 from flask import Markup, current_app
 
 from .text import id_normalize, sort_normalize
-from .transformers import zotero_uri_to_item_id
+from .transformers import zotero_uri_to_item_id_multiple
 
 RECORD_SEPARATOR = '\x1e'
 
@@ -445,7 +445,7 @@ class RelationsInNotesExtractor(BaseNotesExtractor):
             for child in children:
                 note = child.get('data', {}).get('note', '')
                 note = Markup(re.sub(r'<br\s*/>', '\n', note)).striptags()  # Strip HTML markup.
-                refs.extend(zotero_uri_to_item_id(note))
+                refs.extend(zotero_uri_to_item_id_multiple(note))
         return refs or None
 
 

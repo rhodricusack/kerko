@@ -3,6 +3,7 @@ Data transformation utilities.
 """
 
 import re
+from collections.abc import Iterable
 
 
 def find(regex, flags=0, group=1, max_matches=1):
@@ -23,17 +24,21 @@ def find(regex, flags=0, group=1, max_matches=1):
     regex = re.compile(regex, flags)
 
     def _find(value):
-        if value and isinstance(value, str):
-            matches = []
-            for i, match in enumerate(regex.finditer(value)):
-                if max_matches and i == max_matches:
-                    break
-                if match:
-                    matches.append(match.group(group))
+        matches = []
+        if value:
+            if isinstance(value, str):
+                value = [value]
+            if isinstance(value, Iterable):
+                for v in value:
+                    if isinstance(v, str):
+                        for i, match in enumerate(regex.finditer(v)):
+                            if max_matches and i == max_matches:
+                                break
+                            if match:
+                                matches.append(match.group(group))
             if max_matches == 1:
                 return matches[0] if matches else ''
-            return matches
-        return [] if max_matches != 1 else ''
+        return matches if max_matches != 1 else ''
 
     return _find
 
@@ -46,13 +51,24 @@ def split(sep=None, maxsplit=-1):
     return _split
 
 
-zotero_uri_to_item_id = find(
+ZOTERO_URI_TO_ITEM_ID_REGEX = (
+    r'(^|\s)(https?://(www\.)?zotero\.org/|zotero://select/)'
+    r'(library|((groups|users)/[0-9]+))/items/([A-Z0-9]+)(?=$|\s)'
+)
+
+zotero_uri_to_item_id_single = find(
+    # Parse a single Zotero Item URI and/or Zotero Select URI in a multiline
+    # string. Return a string with the found item ID.
+    regex=ZOTERO_URI_TO_ITEM_ID_REGEX,
+    flags=re.MULTILINE,
+    group=7,
+    max_matches=1,
+)
+
+zotero_uri_to_item_id_multiple = find(
     # Parse multiple Zotero Item URIs and/or Zotero Select URIs in a multiline
     # string. Return the list of found item IDs.
-    regex=(
-        r'(^|\s)(https?://(www\.)?zotero\.org/|zotero://select/)'
-        r'(library|((groups|users)/[0-9]+))/items/([A-Z0-9]+)(?=$|\s)'
-    ),
+    regex=ZOTERO_URI_TO_ITEM_ID_REGEX,
     flags=re.MULTILINE,
     group=7,
     max_matches=0,
