@@ -281,7 +281,7 @@ class Composer:
                                 extractor=extractors.ItemRelationsExtractor(
                                     predicate='dc:replaces'
                                 ),
-                                transformers=[transformers.zotero_uri_to_item_id_single]
+                                transformers=[transformers.find_item_id_in_zotero_uris_list]
                             )
                         ]
                     )
@@ -1255,7 +1255,7 @@ class Composer:
                         extractor=extractors.ItemRelationsExtractor(
                             predicate='dc:relation',
                         ),
-                        transformers=[transformers.zotero_uri_to_item_id_single]
+                        transformers=[transformers.find_item_id_in_zotero_uris_list]
                     )
                 )
             )

@@ -9,7 +9,7 @@ from collections.abc import Iterable
 from flask import Markup, current_app
 
 from .text import id_normalize, sort_normalize
-from .transformers import zotero_uri_to_item_id_multiple
+from .transformers import find_item_id_in_zotero_uris_str
 
 RECORD_SEPARATOR = '\x1e'
 
@@ -140,11 +140,14 @@ class TransformerExtractor(Extractor):
         self.extractor = extractor
         self.transformers = transformers
 
-    def extract(self, item_context, library_context, spec):
-        value = self.extractor.extract(item_context, library_context, spec)
+    def apply_transformers(self, value):
         for transformer in self.transformers:
             value = transformer(value)
         return value
+
+    def extract(self, item_context, library_context, spec):
+        value = self.extractor.extract(item_context, library_context, spec)
+        return self.apply_transformers(value)
 
 
 class MultiExtractor(Extractor):
@@ -201,13 +204,18 @@ class RawDataExtractor(Extractor):
 
 
 class ItemRelationsExtractor(Extractor):
+    """Extract a list of item's relations corresponding to a given predicate."""
 
     def __init__(self, predicate, **kwargs):
         super().__init__(**kwargs)
         self.predicate = predicate
 
     def extract(self, item_context, library_context, spec):
-        return item_context.data.get('relations', {}).get(self.predicate)
+        relations = item_context.data.get('relations', {}).get(self.predicate, [])
+        if relations and isinstance(relations, str):
+            relations = [relations]
+        assert isinstance(relations, Iterable)
+        return relations
 
 
 class ItemTypeLabelExtractor(Extractor):
@@ -445,7 +453,7 @@ class RelationsInNotesExtractor(BaseNotesExtractor):
             for child in children:
                 note = child.get('data', {}).get('note', '')
                 note = Markup(re.sub(r'<br\s*/>', '\n', note)).striptags()  # Strip HTML markup.
-                refs.extend(zotero_uri_to_item_id_multiple(note))
+                refs.extend(find_item_id_in_zotero_uris_str(note))
         return refs or None
 
 
