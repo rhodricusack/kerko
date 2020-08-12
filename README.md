@@ -468,9 +468,11 @@ Remarks:
 * You may use Zotero Item Selects (URIs starting with `zotero://select/`) in the
   notes, if you prefer those to Zotero URIs.
 * URIs must be separated by one or more whitespace character(s).
-* Hopefully, Zotero will provide nicer ways for managing custom [relation
+* Hopefully, Zotero will provide nicer ways for handling [relation
   types](https://sparontologies.github.io/cito/current/cito.html) in the future.
-  In the meantime, using notes is how Kerko handles it.
+  In the meantime, using child notes is how Kerko handles it. If relation types
+  are important to you, consider describing your use case in the [Zotero
+  forums](https://forums.zotero.org/discussion/1317/semantic-relations/).
 * Custom Kerko applications can provide more types of relations, if desired, in
   addition to _Cites_ and _Cited by_.
 
