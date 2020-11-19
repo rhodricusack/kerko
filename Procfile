@@ -1,1 +1,1 @@
-web: gunicorn run:kerko
+web: gunicorn hello_kerko:cusacklab
